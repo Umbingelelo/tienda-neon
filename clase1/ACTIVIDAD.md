@@ -1,85 +1,120 @@
 # Actividad Clase 1: tu tienda en la nube
 
-**DSY1104 Desarrollo Full Stack II · EA3 · Act 3.3 Integración RESTful en la nube**
-Modalidad: en el equipo del caso semestral (máx. 3 integrantes) · Duración: bloque 3 + lo que quede del bloque 2 · Formativa.
+**DSY1104 Desarrollo Full Stack II · Parcial 3 (EA3) · Actividad 3.3 Integración RESTful en la nube**
+Se trabaja en el equipo del caso semestral (máximo 3 integrantes). Tiempo: el bloque 3 y lo que quede del bloque 2. Evaluación formativa (no lleva nota).
 
 ## Objetivo
 
-Dejar la tienda del equipo con **su base de datos en la nube (Neon)**, **el backend conectado** y **las imágenes de los productos en ImgBB**, guardando en la BD solo la URL.
+Que la tienda del equipo quede con:
+1. su **base de datos en la nube** (Neon);
+2. el **backend conectado** a esa base;
+3. las **fotos de los productos en ImgBB**, guardando en la base **solo la URL**.
 
 ## Antes de empezar
 
-- JDK 17 o superior (`java -version`).
-- Git y una cuenta de GitHub.
-- Postman, Thunder Client (VS Code) o `curl`.
-- Proyecto base: https://github.com/Umbingelelo/tienda-neon. El paso a paso está en su `README.md`.
+- IntelliJ IDEA con un JDK 17 o superior (si no tienes uno, IntelliJ lo descarga: README, paso 3.2).
+- **Postman de escritorio** (la versión web no llega a `localhost`).
+- Proyecto base: https://github.com/Umbingelelo/tienda-neon. Todos los pasos, con capturas, están en su **README**.
+- Repartan roles: **Neon** (Parte A y todas las capturas de Neon) · **Backend** (Partes B y C) · **Fotos** (Parte D).
 
 ---
 
-## Parte A: Base de datos en Neon (un integrante por equipo)
+## Parte A: Base de datos en Neon (la hace UN integrante)
 
-1. Crear una cuenta en https://console.neon.tech.
-2. Crear el proyecto `tienda-<nombre-equipo>`.
-3. En **Connect**, desactivar *Connection pooling* y copiar el connection string.
-4. Convertirlo a las 3 variables `DB_URL`, `DB_USERNAME` y `DB_PASSWORD` (README, paso 2).
-5. Compartir esos datos con el equipo **por un canal privado**, nunca por GitHub.
+1. Crear una cuenta en https://console.neon.tech (con GitHub o Google).
+2. **New project** → nombre `tienda-<nombre-equipo>` → región **AWS South America East 1 (São Paulo)** → **Create project** → **Go to project**.
+3. **Connect** → apagar **Connection pooling** → menú **Connection string ▾** → **Parameters only** → **Copy snippet**.
+4. Armar `DB_URL`, `DB_USERNAME` y `DB_PASSWORD` como explica el **README, paso 2**.
+5. Pasar esos 3 datos al equipo **por WhatsApp o Teams**, nunca por GitHub.
 
-**Evidencia A:** captura del panel del proyecto en Neon con el nombre del proyecto visible. **Tapen la clave.**
+⚠️ No presionen **Reset password**: cambia la clave del equipo.
+
+**Evidencia A:** captura del panel del proyecto en Neon (**Branch overview**) con el nombre del proyecto visible. **Que no se vea la clave.**
 
 ## Parte B: Backend conectado
 
 Elijan **una** opción:
 
-- **B1 (recomendada si su backend aún no está listo):** clonar el proyecto base.
-- **B2:** usar el backend Spring Boot de su equipo. Agreguen la dependencia `org.postgresql:postgresql` y configuren `application.properties` igual que el proyecto base (con `${DB_URL}`, etc.).
+- **B1 (recomendada):** usar el proyecto base: **Code → Download ZIP**, o `git clone`.
+- **B2:** usar el backend Spring Boot de su equipo:
+  1. En `pom.xml`, dentro de `<dependencies>`, agregar:
+     ```xml
+     <dependency>
+         <groupId>org.postgresql</groupId>
+         <artifactId>postgresql</artifactId>
+         <scope>runtime</scope>
+     </dependency>
+     ```
+  2. Quitar la dependencia de H2 o MySQL si la tenían.
+  3. Copiar en su `application.properties` las líneas `spring.config.import`, `spring.datasource.*` y `spring.jpa.*` del proyecto base.
+  4. Su base parte vacía: si `GET` responde `[]`, **está bien**.
 
-En ambos casos:
+En las dos opciones:
 
-1. Crear `.env` a partir de `.env.example` con los datos de Neon.
-2. Verificar que `.env` aparece en `.gitignore` y que `git status` **no** lo muestra.
-3. Ejecutar `./mvnw spring-boot:run` (en Windows, `mvnw.cmd spring-boot:run`) y abrir `http://localhost:8080/api/productos`.
+1. Abrir en IntelliJ la carpeta que **contiene `pom.xml`** (**File → Open**).
+2. Crear el archivo `.env` **dentro de IntelliJ**: clic derecho en esa carpeta → **New → File** → `.env`. No usen el Bloc de notas, porque lo guarda como `.env.txt`.
+3. Pegar los 3 datos de Neon.
+4. Ejecutar con el **▶ verde** en `TiendaNeonApplication.java`.
+5. La consola debe mostrar `HikariPool-1 - Added connection` y `Started ...Application`.
+6. Abrir `http://localhost:8080/api/productos` en el navegador.
 
 **Evidencia B:**
 - Captura de la consola con `Started ...Application`.
 - Captura del navegador o de Postman con el JSON de productos.
-- **Prueba de equipo:** un segundo integrante ejecuta el proyecto en su PC con el mismo `.env` y ve los mismos datos. Captura de su pantalla.
+- **Prueba de equipo:** un segundo integrante descarga el **mismo** proyecto, crea **su propio** `.env` con los mismos datos, lo ejecuta y ve **los mismos productos**. Captura de su pantalla.
 
-## Parte C: Adaptar la entidad a su tienda
+## Parte C: Adaptar el producto a su tienda
 
-El proyecto base trae un `Producto` genérico. Adáptenlo al rubro de su caso (ropa, tecnología, mascotas, etc.):
+El `Producto` del proyecto base es genérico. Adáptenlo al rubro de su tienda (ropa, tecnología, mascotas, etc.):
 
-1. Agregar **al menos 1 atributo propio** de su tienda (por ejemplo `categoria`, `talla`, `marca` o `color`) con su validación (`@NotBlank`, `@Size`, `@Min`…).
-2. Reiniciar la app y comprobar en Neon que la columna nueva se creó:
+1. En `Producto.java`, agregar **1 atributo propio** con su validación:
+   - Texto: `@NotBlank private String categoria;`
+   - Número: `@NotNull @Min(0) private Integer talla;`
+
+   `@NotBlank` es **solo para texto (`String`)**. **No** usen `@Column(nullable = false)`.
+2. Generar su getter y setter: **Alt+Insert → Getter and Setter** (Mac: ⌘N).
+3. En `ProductoController.java`, dentro de `actualizar(...)`, agregar una línea como `producto.setCategoria(datos.getCategoria());`.
+4. Detener (■ rojo) y volver a ejecutar (▶). En Neon → **SQL Editor**, comprobar que apareció la columna:
    ```sql
    SELECT column_name, data_type FROM information_schema.columns WHERE table_name = 'productos';
    ```
-3. Crear con `POST /api/productos` **5 productos reales** de su tienda (todavía sin imagen).
-4. Probar que la validación funciona: enviar un producto con precio negativo debe responder **400**.
-
-**Evidencia C:** captura del `SELECT * FROM productos;` en el SQL Editor de Neon y captura del 400 en Postman.
-
-## Parte D: Imágenes en ImgBB
-
-1. Crear una cuenta en https://imgbb.com y obtener la API key en https://api.imgbb.com.
-2. Subir **una imagen por cada uno de los 5 productos**:
-   ```bash
-   curl -X POST "https://api.imgbb.com/1/upload?key=TU_API_KEY" -F "image=@foto.jpg"
+   El nombre en la base va en minúsculas y con `_`: `tallaRopa` queda como `talla_ropa`. Los 3 productos de ejemplo tendrán `NULL` en la columna nueva, y eso es normal.
+5. En Postman (**POST** `http://localhost:8080/api/productos` → **Body → raw → JSON**), crear **5 productos reales** de su tienda, todavía con `"imagenUrl": null`. Por ejemplo:
+   ```json
+   { "nombre": "Polerón Oversize", "descripcion": "Algodón", "precio": 24990, "stock": 8, "categoria": "Polerones", "imagenUrl": null }
    ```
-   En Postman: `POST` a la misma URL → *Body* → *form-data* → clave `image`, tipo **File**.
-3. De cada respuesta, copiar `data.url`.
-4. Actualizar cada producto con `PUT /api/productos/{id}`, incluyendo `"imagenUrl": "<data.url>"`.
+6. Probar la validación: enviar el mismo JSON con `"precio": -1` debe responder **400 Bad Request**.
+
+**Evidencia C:** captura de `SELECT * FROM productos;` en el SQL Editor de Neon (la saca el integrante A) y captura del **400** en Postman.
+
+## Parte D: Fotos en ImgBB
+
+1. Crear una cuenta en https://imgbb.com → entrar a https://api.imgbb.com → **Get API key**.
+2. Subir **una foto por cada uno de los 5 productos** con Postman:
+   - **POST** `https://api.imgbb.com/1/upload?key=SU_API_KEY`
+   - **Body → form-data** → en *Key* escriban `image`, cambien **Text** por **File** → **Select Files** → **Send**.
+3. En la respuesta, dentro de `"data"`, copiar el valor de **`"url"`**: el que empieza con **`https://i.ibb.co/`**. No sirve `url_viewer`.
+4. Guardar la URL en el producto. ⚠️ **PUT reemplaza el producto completo**, así que:
+   1. `GET http://localhost:8080/api/productos/{id}` → copiar la respuesta;
+   2. cambiar solo `"imagenUrl": null` por `"imagenUrl": "https://i.ibb.co/..."`;
+   3. `PUT http://localhost:8080/api/productos/{id}` → **Body → raw → JSON** → pegar → **Send**.
+
+   Si envían solo `{"imagenUrl": "..."}`, responde **400**.
 5. Verificar en Neon:
    ```sql
    SELECT id, nombre, imagen_url FROM productos;
    ```
 
-**Evidencia D:** captura de esa consulta con las 5 URLs, y una de esas URLs abierta en el navegador mostrando la imagen.
+**Evidencia D:** captura de esa consulta con las 5 URLs, y una de esas URLs abierta en el navegador mostrando **solo la foto**.
 
-## Desafío (opcional, suma para la próxima clase)
+## Desafío (opcional, adelanta la Clase 2)
 
-Desde **su frontend** (React o Angular), listar los productos que entrega `GET http://localhost:8080/api/productos` mostrando nombre, precio e imagen (`<img src={producto.imagenUrl}>`).
+Desde **su frontend**, listar los productos de `GET http://localhost:8080/api/productos` mostrando nombre, precio y foto:
 
-- Si el navegador muestra un error de **CORS**, revisen `app.cors.allowed-origins` en `application.properties` (o la variable `CORS_ORIGINS`) y agreguen el puerto de su frontend.
+- React: `<img src={producto.imagenUrl} alt={producto.nombre} />`
+- Angular: `<img [src]="producto.imagenUrl" [alt]="producto.nombre">`
+
+Si el navegador muestra **`blocked by CORS policy`**: por defecto se permiten los puertos 5173 (Vite), 3000 y 4200 (Angular). Si su frontend usa otro puerto, agreguen al `.env` la lista **completa** `CORS_ORIGINS=http://localhost:5173,http://localhost:3000,http://localhost:4200,http://localhost:XXXX` y reinicien el backend.
 
 **Evidencia:** captura de la página con las 5 tarjetas de producto.
 
@@ -87,23 +122,23 @@ Desde **su frontend** (React o Angular), listar los productos que entrega `GET h
 
 ## Entrega (al final de la clase)
 
-Subir en AVA / enviar al docente **un documento por equipo** con:
+**Un documento por equipo, subido en AVA**, con:
 
 1. Nombre del equipo, integrantes y sección.
-2. Link al repositorio de GitHub. Debe **no** contener `.env` ni claves.
+2. Link al repositorio de GitHub **del equipo** (no el del profesor), sin `.env` ni claves. Cómo crearlo: README, sección "Subir tu proyecto a GitHub".
 3. Las evidencias A, B, C y D (y la del desafío, si la hicieron).
-4. Respondan en 3–5 líneas: **¿por qué guardamos solo la URL de la imagen en la base de datos y no el archivo?**
+4. Una respuesta de 3 a 5 líneas: **¿por qué guardamos en la base de datos solo la URL de la foto y no el archivo?**
 
 ## Pauta de revisión (formativa)
 
 | Criterio | Logrado | Parcial | No logrado |
 |---|---|---|---|
-| A. BD creada en Neon | Proyecto creado y en uso por el equipo | Creado, pero solo funciona a un integrante | No creada |
-| B. Backend conectado | Conecta con `.env`; las claves no están en el repositorio | Conecta, pero con la clave escrita en `application.properties` | No conecta |
-| C. Modelo propio | Atributo nuevo con validación + 5 productos + 400 probado | Productos creados, sin atributo propio o sin validación | Sin datos propios |
-| D. Imágenes | 5 productos con `imagenUrl` de ImgBB que se ven en el navegador | Menos de 5 o URLs que no cargan | Sin imágenes |
-| Respuesta conceptual | Menciona el peso, el rendimiento y el almacenamiento de objetos/CDN | Respuesta incompleta | Sin respuesta |
+| A. BD en Neon | Creada y usada por todo el equipo | Creada, pero solo le funciona a un integrante | No creada |
+| B. Backend conectado | Conecta usando `.env`, y las claves no están en el repositorio | Conecta, pero con la clave escrita en `application.properties` | No conecta |
+| C. Modelo propio | Atributo nuevo con validación, 5 productos y el 400 probado | Hay productos, pero sin atributo propio o sin validación | Sin datos propios |
+| D. Fotos | 5 productos con `imagenUrl` de ImgBB que se ven en el navegador | Menos de 5, o URLs que no cargan | Sin fotos |
+| Respuesta | Menciona el peso, la velocidad y el almacenamiento aparte (CDN) | Incompleta | Sin respuesta |
 
 ## Si algo falla
 
-Revisen la tabla **"Problemas frecuentes"** del `README.md` del proyecto base antes de llamar al docente.
+Revisen la tabla **"Problemas frecuentes"** del README antes de llamar al docente. Busquen en la consola la **primera** línea que diga `Caused by:`.
