@@ -715,7 +715,7 @@ spring.datasource.password=${DB_PASSWORD}</code></pre>
 spring.datasource.url=${DB_URL}
 
 # en la carpeta del proyecto NO existe .env
-# presionas el botón Run de IntelliJ</code></pre>
+# haces clic en Run sobre main en VS Code</code></pre>
     <p class="pista">Spring llega a la línea <code>spring.datasource.url</code> y tiene que reemplazar <code>${DB_URL}</code> por algo.</p>
     <div class="salida">La aplicación no arranca: <code>Could not resolve placeholder 'DB_URL'</code>. Spring no encontró ningún valor para esa variable. En Windows la causa típica es que el Bloc de notas guardó el archivo como <code>.env.txt</code>.</div>
     <button class="boton solo-clase" data-accion="revelar">Revelar (R)</button>
@@ -820,27 +820,27 @@ DB_PASSWORD=npg_AbC123xyz</code></pre>
   </div>
 </section>
 
-<!-- ============ 18 · ABRIR EN INTELLIJ ============ -->
-<section class="slide" data-notas="4 min. La carpeta doble del ZIP es la trampa número uno en Windows. Mostrarlo en el explorador.">
-  <div class="con-logo"><img class="logo" alt="IntelliJ IDEA" src="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMDAwMDAwIiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+SW50ZWxsaUogSURFQTwvdGl0bGU+PHBhdGggZD0iTTAgMHYyNGgyNFYwem0zLjcyMyAzLjExMWg1djEuODM0aC0xLjM5djYuMjc3aDEuMzl2MS44MzRoLTV2LTEuODM0aDEuNDQ0VjQuOTQ1SDMuNzIzem0xMS4wNTUgMEgxN3Y2LjVjMCAuNjEyLS4wNTUgMS4xMTEtLjIyMiAxLjU1Ni0uMTY3LjQ0NC0uMzkuNzc3LS43MjMgMS4xMS0uMjc3LjI3OS0uNjY2LjU1Ny0xLjExLjY2OGEzLjkzMyAzLjkzMyAwIDAgMS0xLjQ0NS4yNzhjLS43NzggMC0xLjQ0NC0uMTY3LTEuOTQ0LS40NDVhNC44MSA0LjgxIDAgMCAxLTEuMjc5LTEuMDU2bDEuMzktMS41NTVjLjI3Ny4zMzQuNTU1LjU1NS44MzMuNzIyLjI3Ny4xNjcuNjExLjI3OC45NDUuMjc4LjM4OSAwIC43MjEtLjExMSAxLS4zODkuMjIxLS4yNzguMzMzLS42NjcuMzMzLTEuMjc4ek0yLjIyMiAxOS41aDlWMjFoLTl6Ii8+PC9zdmc+"><h2>Paso 5: abrir el proyecto base en IntelliJ</h2></div>
+<!-- ============ 18 · ABRIR EN VS CODE ============ -->
+<section class="slide" data-notas="4 min. La carpeta doble del ZIP es la trampa número uno en Windows. Mostrarlo en el explorador. Revisar que tengan Extension Pack for Java instalado antes de seguir.">
+  <div class="con-logo"><img class="logo" alt="Visual Studio Code" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjggMTI4Ij48bWFzayBpZD0iYSIgd2lkdGg9IjEyOCIgaGVpZ2h0PSIxMjgiIHg9IjAiIHk9IjAiIG1hc2tVbml0cz0idXNlclNwYWNlT25Vc2UiIHN0eWxlPSJtYXNrLXR5cGU6YWxwaGEiPjxwYXRoIGZpbGw9IiNmZmYiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTkwLjc2NyAxMjcuMTI2YTcuOTY4IDcuOTY4IDAgMCAwIDYuMzUtLjI0NGwyNi4zNTMtMTIuNjgxYTggOCAwIDAgMCA0LjUzLTcuMjA5VjIxLjAwOWE4IDggMCAwIDAtNC41My03LjIxTDk3LjExNyAxLjEyYTcuOTcgNy45NyAwIDAgMC05LjA5MyAxLjU0OGwtNTAuNDUgNDYuMDI2TDE1LjYgMzIuMDEzYTUuMzI4IDUuMzI4IDAgMCAwLTYuODA3LjMwMmwtNy4wNDggNi40MTFhNS4zMzUgNS4zMzUgMCAwIDAtLjAwNiA3Ljg4OEwyMC43OTYgNjQgMS43NCA4MS4zODdhNS4zMzYgNS4zMzYgMCAwIDAgLjAwNiA3Ljg4N2w3LjA0OCA2LjQxMWE1LjMyNyA1LjMyNyAwIDAgMCA2LjgwNy4zMDNsMjEuOTc0LTE2LjY4IDUwLjQ1IDQ2LjAyNWE3Ljk2IDcuOTYgMCAwIDAgMi43NDMgMS43OTNabTUuMjUyLTkyLjE4M0w1Ny43NCA2NGwzOC4yOCAyOS4wNThWMzQuOTQzWiIgY2xpcC1ydWxlPSJldmVub2RkIi8+PC9tYXNrPjxnIG1hc2s9InVybCgjYSkiPjxwYXRoIGZpbGw9IiMwMDY1QTkiIGQ9Ik0xMjMuNDcxIDEzLjgyIDk3LjA5NyAxLjEyQTcuOTczIDcuOTczIDAgMCAwIDg4IDIuNjY4TDEuNjYyIDgxLjM4N2E1LjMzMyA1LjMzMyAwIDAgMCAuMDA2IDcuODg3bDcuMDUyIDYuNDExYTUuMzMzIDUuMzMzIDAgMCAwIDYuODExLjMwM2wxMDMuOTcxLTc4Ljg3NWMzLjQ4OC0yLjY0NiA4LjQ5OC0uMTU4IDguNDk4IDQuMjJ2LS4zMDZhOC4wMDEgOC4wMDEgMCAwIDAtNC41MjktNy4yMDhaIi8+PGcgZmlsdGVyPSJ1cmwoI2IpIj48cGF0aCBmaWxsPSIjMDA3QUNDIiBkPSJtMTIzLjQ3MSAxMTQuMTgxLTI2LjM3NCAxMi42OThBNy45NzMgNy45NzMgMCAwIDEgODggMTI1LjMzM0wxLjY2MiA0Ni42MTNhNS4zMzMgNS4zMzMgMCAwIDEgLjAwNi03Ljg4N2w3LjA1Mi02LjQxMWE1LjMzMyA1LjMzMyAwIDAgMSA2LjgxMS0uMzAzbDEwMy45NzEgNzguODc0YzMuNDg4IDIuNjQ3IDguNDk4LjE1OSA4LjQ5OC00LjIxOXYuMzA2YTguMDAxIDguMDAxIDAgMCAxLTQuNTI5IDcuMjA4WiIvPjwvZz48ZyBmaWx0ZXI9InVybCgjYykiPjxwYXRoIGZpbGw9IiMxRjlDRjAiIGQ9Ik05Ny4wOTggMTI2Ljg4MkE3Ljk3NyA3Ljk3NyAwIDAgMSA4OCAxMjUuMzMzYzIuOTUyIDIuOTUyIDggLjg2MSA4LTMuMzE0VjUuOThjMC00LjE3NS01LjA0OC02LjI2Ni04LTMuMzEzYTcuOTc3IDcuOTc3IDAgMCAxIDkuMDk4LTEuNTQ5TDEyMy40NjcgMTMuOEE4IDggMCAwIDEgMTI4IDIxLjAxdjg1Ljk4MmE4IDggMCAwIDEtNC41MzMgNy4yMWwtMjYuMzY5IDEyLjY4MVoiLz48L2c+PHBhdGggZmlsbD0idXJsKCNkKSIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNOTAuNjkgMTI3LjEyNmE3Ljk2OCA3Ljk2OCAwIDAgMCA2LjM0OS0uMjQ0bDI2LjM1My0xMi42ODFhOCA4IDAgMCAwIDQuNTMtNy4yMVYyMS4wMDlhOCA4IDAgMCAwLTQuNTMtNy4yMUw5Ny4wMzkgMS4xMmE3Ljk3IDcuOTcgMCAwIDAtOS4wOTMgMS41NDhsLTUwLjQ1IDQ2LjAyNi0yMS45NzQtMTYuNjhhNS4zMjggNS4zMjggMCAwIDAtNi44MDcuMzAybC03LjA0OCA2LjQxMWE1LjMzNiA1LjMzNiAwIDAgMC0uMDA2IDcuODg4TDIwLjcxOCA2NCAxLjY2MiA4MS4zODZhNS4zMzUgNS4zMzUgMCAwIDAgLjAwNiA3Ljg4OGw3LjA0OCA2LjQxMWE1LjMyOCA1LjMyOCAwIDAgMCA2LjgwNy4zMDNsMjEuOTc1LTE2LjY4MSA1MC40NSA0Ni4wMjZhNy45NTkgNy45NTkgMCAwIDAgMi43NDIgMS43OTNabTUuMjUyLTkyLjE4NEw1Ny42NjIgNjRsMzguMjggMjkuMDU3VjM0Ljk0M1oiIGNsaXAtcnVsZT0iZXZlbm9kZCIgb3BhY2l0eT0iMC4yNSIgc3R5bGU9Im1peC1ibGVuZC1tb2RlOm92ZXJsYXkiLz48L2c+PGRlZnM+PGZpbHRlciBpZD0iYiIgd2lkdGg9IjE0NC43NDQiIGhlaWdodD0iMTEzLjQwOCIgeD0iLTguNDExMTUiIHk9IjIyLjU5NDQiIGNvbG9yLWludGVycG9sYXRpb24tZmlsdGVycz0ic1JHQiIgZmlsdGVyVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48ZmVGbG9vZCBmbG9vZC1vcGFjaXR5PSIwIiByZXN1bHQ9IkJhY2tncm91bmRJbWFnZUZpeCIvPjxmZUNvbG9yTWF0cml4IGluPSJTb3VyY2VBbHBoYSIgcmVzdWx0PSJoYXJkQWxwaGEiIHZhbHVlcz0iMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMTI3IDAiLz48ZmVPZmZzZXQvPjxmZUdhdXNzaWFuQmx1ciBzdGREZXZpYXRpb249IjQuMTY2NjciLz48ZmVDb2xvck1hdHJpeCB2YWx1ZXM9IjAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAuMjUgMCIvPjxmZUJsZW5kIGluMj0iQmFja2dyb3VuZEltYWdlRml4IiBtb2RlPSJvdmVybGF5IiByZXN1bHQ9ImVmZmVjdDFfZHJvcFNoYWRvd18xXzM2Ii8+PGZlQmxlbmQgaW49IlNvdXJjZUdyYXBoaWMiIGluMj0iZWZmZWN0MV9kcm9wU2hhZG93XzFfMzYiIHJlc3VsdD0ic2hhcGUiLz48L2ZpbHRlcj48ZmlsdGVyIGlkPSJjIiB3aWR0aD0iNTYuNjY2NyIgaGVpZ2h0PSIxNDQuMDA3IiB4PSI3OS42NjY3IiB5PSItOC4wMDM1IiBjb2xvci1pbnRlcnBvbGF0aW9uLWZpbHRlcnM9InNSR0IiIGZpbHRlclVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PGZlRmxvb2QgZmxvb2Qtb3BhY2l0eT0iMCIgcmVzdWx0PSJCYWNrZ3JvdW5kSW1hZ2VGaXgiLz48ZmVDb2xvck1hdHJpeCBpbj0iU291cmNlQWxwaGEiIHJlc3VsdD0iaGFyZEFscGhhIiB2YWx1ZXM9IjAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDEyNyAwIi8+PGZlT2Zmc2V0Lz48ZmVHYXVzc2lhbkJsdXIgc3RkRGV2aWF0aW9uPSI0LjE2NjY3Ii8+PGZlQ29sb3JNYXRyaXggdmFsdWVzPSIwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwLjI1IDAiLz48ZmVCbGVuZCBpbjI9IkJhY2tncm91bmRJbWFnZUZpeCIgbW9kZT0ib3ZlcmxheSIgcmVzdWx0PSJlZmZlY3QxX2Ryb3BTaGFkb3dfMV8zNiIvPjxmZUJsZW5kIGluPSJTb3VyY2VHcmFwaGljIiBpbjI9ImVmZmVjdDFfZHJvcFNoYWRvd18xXzM2IiByZXN1bHQ9InNoYXBlIi8+PC9maWx0ZXI+PGxpbmVhckdyYWRpZW50IGlkPSJkIiB4MT0iNjMuOTIyMiIgeDI9IjYzLjkyMjIiIHkxPSIwLjMyOTkwMiIgeTI9IjEyNy42NyIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPjxzdG9wIHN0b3AtY29sb3I9IiNmZmYiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNmZmYiIHN0b3Atb3BhY2l0eT0iMCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjwvc3ZnPgo="><h2>Paso 5: abrir el proyecto base en VS Code</h2></div>
   <div class="diagrama">
     <span class="rotulo">Desde el ZIP hasta el proyecto cargado</span>
     <div class="secuencia">
       <div class="paso-seq"><span class="n">1</span><div><div class="quien">GitHub</div><div class="que"><code>Umbingelelo/tienda-neon</code>, botón <strong>Code</strong>, <strong>Download ZIP</strong> y <strong>Extraer todo</strong></div></div></div>
       <div class="paso-seq corta"><span class="n">2</span><div><div class="quien">Explorador de Windows</div><div class="que">Quedan dos carpetas con el mismo nombre, una dentro de otra. La correcta es la de <strong>adentro</strong>, la que contiene <code>pom.xml</code></div></div></div>
-      <div class="paso-seq"><span class="n">3</span><div><div class="quien">IntelliJ</div><div class="que"><strong>File, Open</strong>, esa carpeta, <strong>Trust Project</strong>. Espera a que termine la barra inferior</div></div></div>
-      <div class="paso-seq"><span class="n">4</span><div><div class="quien">IntelliJ</div><div class="que">Si aparece <em>Project JDK is not defined</em>: <strong>Setup SDK</strong> y elige 17 o superior, o <strong>Download JDK</strong></div></div></div>
+      <div class="paso-seq"><span class="n">3</span><div><div class="quien">VS Code</div><div class="que"><strong>File, Open Folder</strong>, esa carpeta, <strong>Yes, I trust the authors</strong>. Con <strong>Extension Pack for Java</strong> instalado, espera a que termine <em>Java: Importing projects</em></div></div></div>
+      <div class="paso-seq"><span class="n">4</span><div><div class="quien">Si no hay JDK</div><div class="que">Instala Temurin 17 o 21 desde <code>adoptium.net</code> con <strong>Set JAVA_HOME variable</strong> activado, y reinicia VS Code</div></div></div>
     </div>
-    <p class="pie-diagrama">Si IntelliJ no encuentra <code>pom.xml</code> no hay botón Run: casi siempre es la carpeta de afuera.</p>
+    <p class="pie-diagrama">Si VS Code no encuentra <code>pom.xml</code> no aparece <strong>Run</strong> sobre <code>main</code>: casi siempre es la carpeta de afuera.</p>
   </div>
 </section>
 
 <!-- ============ 19 · PROGRAMAMOS JUNTOS ============ -->
-<section class="slide" data-notas="8 min. Hacerlo en vivo en IntelliJ con el proyecto de demo tienda-demo. Crear el .env con New File, nunca con el Bloc de notas.">
+<section class="slide" data-notas="8 min. Hacerlo en vivo en VS Code con el proyecto de demo tienda-demo. Crear el .env con New File del Explorer, nunca con el Bloc de notas.">
   <h2>Programamos juntos: conectar el backend a Neon</h2>
   <div class="widget codigo-guiado" data-widget="codigo-guiado">
     <span class="widget-titulo">El archivo .env y su lectura</span>
-    <p class="correr">IntelliJ: clic derecho en la carpeta con pom.xml, New, File, «.env» · luego Run en TiendaNeonApplication</p>
+    <p class="correr">VS Code: Explorer, New File, «.env» junto a pom.xml · luego Run sobre main en TiendaNeonApplication.java</p>
     <div class="contador"></div>
 <pre><code><span class="linea" data-paso="1"># .env</span>
 <span class="linea" data-paso="2">DB_URL=jdbc:postgresql://ep-dawn-moon-b62566zk.c-2.sa-east-1.aws.neon.tech/neondb?sslmode=require</span>
@@ -852,7 +852,7 @@ DB_PASSWORD=npg_AbC123xyz</code></pre>
 <span class="linea" data-paso="5">spring.datasource.username=${DB_USERNAME}</span>
 <span class="linea" data-paso="5">spring.datasource.password=${DB_PASSWORD}</span>
 <span class="linea" data-paso="6">spring.jpa.hibernate.ddl-auto=update</span></code></pre>
-    <div class="porque-paso" data-paso="1">El archivo se crea <strong>dentro de IntelliJ</strong>, junto a <code>pom.xml</code>. El nombre empieza con punto y no tiene extensión.</div>
+    <div class="porque-paso" data-paso="1">El archivo se crea <strong>dentro de VS Code</strong>, con <strong>New File</strong> del panel Explorer, junto a <code>pom.xml</code>. El nombre empieza con punto y no tiene extensión.</div>
     <div class="porque-paso" data-paso="2">La línea que armaron en el ejercicio anterior. Sin espacios alrededor del igual y sin comillas.</div>
     <div class="porque-paso" data-paso="3">Usuario y clave copiados de <strong>Copy snippet</strong>. La clave empieza con <code>npg_</code>, y eso es parte de la clave.</div>
     <div class="porque-paso" data-paso="4">Esta línea es la que hace que Spring lea el <code>.env</code>. <code>optional:</code> evita que falle en un servidor donde las variables vienen de otro lado.</div>
@@ -864,7 +864,7 @@ DB_PASSWORD=npg_AbC123xyz</code></pre>
 <!-- ============ 20 · EJECUTAR ============ -->
 <section class="slide" data-notas="4 min. Mostrar las dos líneas en la consola real. Si alguien usa terminal en Windows, recordar el punto barra.">
   <h2>Paso 6: ejecutar y leer la consola</h2>
-  <p>Abre <code>TiendaNeonApplication.java</code> y presiona el botón verde de Run junto a <code>main</code>. Por
+  <p>Abre <code>TiendaNeonApplication.java</code> y haz clic en <strong>Run</strong>, el texto que VS Code muestra encima de <code>main</code>. Por
   terminal en Windows es <code>.\mvnw.cmd spring-boot:run</code>, con <code>.\</code> adelante; en Mac,
   <code>./mvnw spring-boot:run</code>.</p>
   <p>La conexión funcionó si aparecen estas dos líneas, en este orden:</p>
@@ -916,7 +916,7 @@ Started TiendaNeonApplication in 3.2 seconds</code></pre>
     <tr><td><code>password authentication failed</code></td><td>Usuario o clave mal copiados: repetir <strong>Copy snippet</strong></td></tr>
     <tr><td><code>Driver claims to not accept jdbcUrl</code></td><td>A <code>DB_URL</code> le falta <code>jdbc:</code> al comienzo</td></tr>
     <tr><td><code>Port 8080 was already in use</code></td><td>Otro backend usa el puerto: detenerlo con Stop, o agregar <code>PORT=8081</code> al <code>.env</code></td></tr>
-    <tr><td><code>'mvnw.cmd' no se reconoce</code> o <code>JAVA_HOME not found</code></td><td>La terminal no encuentra Java: ejecutar con el botón Run de IntelliJ</td></tr>
+    <tr><td><code>'mvnw.cmd' no se reconoce</code> o <code>JAVA_HOME not found</code></td><td>La terminal no encuentra Java: usar <strong>Run</strong> sobre <code>main</code>, o reinstalar Temurin con JAVA_HOME</td></tr>
   </table>
 </section>
 

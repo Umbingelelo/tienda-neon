@@ -12,7 +12,7 @@ Que la tienda del equipo quede con:
 
 ## Antes de empezar
 
-- IntelliJ IDEA con un JDK 17 o superior (si no tienes uno, IntelliJ lo descarga: README, paso 3.2).
+- Visual Studio Code con **Extension Pack for Java** y **Spring Boot Extension Pack**, y un JDK 17 o superior (README, paso 3.2).
 - **Postman de escritorio** (la versión web no llega a `localhost`).
 - Proyecto base: https://github.com/Umbingelelo/tienda-neon. Todos los pasos, con capturas, están en su **README**.
 - Repartan roles: **Neon** (Parte A y todas las capturas de Neon) · **Backend** (Partes B y C) · **Fotos** (Parte D).
@@ -51,10 +51,10 @@ Elijan **una** opción:
 
 En las dos opciones:
 
-1. Abrir en IntelliJ la carpeta que **contiene `pom.xml`** (**File → Open**).
-2. Crear el archivo `.env` **dentro de IntelliJ**: clic derecho en esa carpeta → **New → File** → `.env`. No usen el Bloc de notas, porque lo guarda como `.env.txt`.
+1. Abrir en VS Code la carpeta que **contiene `pom.xml`** (**File → Open Folder…**).
+2. Crear el archivo `.env` **dentro de VS Code**: panel **Explorer** → **New File…** → `.env`, al mismo nivel que `pom.xml`. No usen el Bloc de notas, porque lo guarda como `.env.txt`.
 3. Pegar los 3 datos de Neon.
-4. Ejecutar con el **▶ verde** en `TiendaNeonApplication.java`.
+4. Abrir `TiendaNeonApplication.java` y hacer clic en **Run**, el texto que aparece encima de `main`.
 5. La consola debe mostrar `HikariPool-1 - Added connection` y `Started ...Application`.
 6. Abrir `http://localhost:8080/api/productos` en el navegador.
 
@@ -72,9 +72,9 @@ El `Producto` del proyecto base es genérico. Adáptenlo al rubro de su tienda (
    - Número: `@NotNull @Min(0) private Integer talla;`
 
    `@NotBlank` es **solo para texto (`String`)**. **No** usen `@Column(nullable = false)`.
-2. Generar su getter y setter: **Alt+Insert → Getter and Setter** (Mac: ⌘N).
+2. Generar su getter y setter: clic derecho dentro de la clase → **Source Action…** → **Generate Getters and Setters**.
 3. En `ProductoController.java`, dentro de `actualizar(...)`, agregar una línea como `producto.setCategoria(datos.getCategoria());`.
-4. Detener (■ rojo) y volver a ejecutar (▶). En Neon → **SQL Editor**, comprobar que apareció la columna:
+4. Detener la aplicación (cuadrado rojo arriba, o **Ctrl+C** en la terminal) y volver a ejecutarla con **Run**. En Neon → **SQL Editor**, comprobar que apareció la columna:
    ```sql
    SELECT column_name, data_type FROM information_schema.columns WHERE table_name = 'productos';
    ```

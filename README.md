@@ -24,8 +24,8 @@ Frontend (React/Angular)  --pide datos-->  Spring Boot (esta API)  --SQL cifrado
 
 | Herramienta | Detalle |
 |---|---|
-| IntelliJ IDEA (Community sirve) | Es la forma recomendada de ejecutar el proyecto, sobre todo en Windows. |
-| JDK 17 o superior | Si IntelliJ no tiene uno, lo descarga él mismo (ver paso 4). |
+| Visual Studio Code + **Extension Pack for Java** (Microsoft) | Es la forma recomendada de abrir y ejecutar el proyecto. Instala también **Spring Boot Extension Pack** (VMware). |
+| JDK 17 o superior | VS Code **no** trae Java. Si no lo tienes, instálalo (ver paso 3.2). |
 | Postman **de escritorio** | La versión web no puede llamar a `localhost`. |
 | Cuenta en Neon | Gratis. Puedes entrar con GitHub o Google. |
 | Cuenta en ImgBB | Gratis. |
@@ -142,16 +142,21 @@ Elige **una** opción:
 
 Usa una carpeta **sin espacios ni tildes y fuera de OneDrive**, por ejemplo `C:\dev\`. Mueve ahí la carpeta de **adentro** (la que tiene `pom.xml`); puedes renombrarla `tienda-neon`.
 
-### 3.2 Abrirlo en IntelliJ
+### 3.2 Abrirlo en Visual Studio Code
 
-1. **File → Open** → elige la carpeta que **contiene `pom.xml`**.
-2. Si pregunta *Trust project?*, elige **Trust Project**.
-3. Espera a que termine la barra de abajo: IntelliJ está descargando las librerías.
-4. Si aparece arriba *Project JDK is not defined* → **Setup SDK** → elige uno 17 o superior, o usa **Download JDK** → versión 17 → **Download**.
+1. Si no los tienes, instala desde la pestaña **Extensions** (Ctrl+Shift+X): **Extension Pack for Java** (de Microsoft) y **Spring Boot Extension Pack** (de VMware).
+2. **File → Open Folder…** → elige la carpeta que **contiene `pom.xml`**. Si VS Code pregunta *Do you trust the authors?*, elige **Yes, I trust the authors**.
+3. Espera a que termine la barra de abajo (*Java: Importing projects…* / *Building*): VS Code está descargando las librerías. La primera vez tarda unos minutos.
+4. Si aparece un aviso de que **no encuentra un JDK**:
+   1. descarga **Eclipse Temurin 17 o 21** desde https://adoptium.net (el instalador `.msi` en Windows);
+   2. durante la instalación, en *Custom Setup*, activa **Set JAVA_HOME variable** (viene desactivado);
+   3. cierra VS Code y vuelve a abrirlo.
+
+   Para comprobarlo, en la terminal de VS Code (**Terminal → New Terminal**) escribe `java -version`.
 
 ### 3.3 Crear el archivo `.env`
 
-1. En IntelliJ, clic derecho sobre la carpeta principal del proyecto (la que tiene `pom.xml`) → **New → File** → escribe `.env` → Enter.
+1. En el panel **Explorer** de VS Code (el ícono de archivos, arriba a la izquierda), pasa el mouse sobre el nombre del proyecto y presiona el ícono **New File…** (o clic derecho en un espacio vacío del panel → **New File…**). Escribe `.env` → Enter. Debe quedar al mismo nivel que `pom.xml`, **no** dentro de `src`.
    > **No uses el Bloc de notas**: lo guarda como `.env.txt` y Spring no lo encuentra.
 2. Pega esto y reemplaza con **tus** datos del paso 2:
 
@@ -186,17 +191,19 @@ app.cors.allowed-origins=${CORS_ORIGINS:http://localhost:5173,http://localhost:3
 
 ## Paso 4: Ejecutar
 
-**Forma recomendada (Windows, Mac y Linux):** en IntelliJ abre `src/main/java/cl/duoc/tiendaneon/TiendaNeonApplication.java` y presiona el **▶ verde** al lado de `main` → **Run**.
+**Forma recomendada (Windows, Mac y Linux):** en VS Code abre `src/main/java/cl/duoc/tiendaneon/TiendaNeonApplication.java`. Encima de `public static void main` aparece el texto **Run | Debug**: haz clic en **Run**. (También funciona el panel **Spring Boot Dashboard**, a la izquierda, botón ▶ al lado de `tienda-neon`.)
 
-**Por terminal** (pestaña *Terminal*, abajo en IntelliJ):
+La salida aparece abajo, en la pestaña **Terminal** o **Debug Console**. Para detener la aplicación usa el cuadrado rojo de la barra flotante de arriba, o **Ctrl+C** en la terminal.
+
+**Por terminal** (**Terminal → New Terminal** en VS Code):
 
 | Sistema | Comando |
 |---|---|
-| Windows PowerShell (la terminal de IntelliJ en Windows) | `.\mvnw.cmd spring-boot:run` |
+| Windows PowerShell (la terminal de VS Code en Windows) | `.\mvnw.cmd spring-boot:run` |
 | Windows CMD | `mvnw.cmd spring-boot:run` |
 | Mac / Linux / Git Bash | `./mvnw spring-boot:run` |
 
-Si la terminal dice `JAVA_HOME not found` o `'java' no se reconoce`, usa el ▶ de IntelliJ.
+Si la terminal dice `JAVA_HOME not found` o `'java' no se reconoce`, usa **Run** sobre `main`, o reinstala el JDK activando *Set JAVA_HOME variable* (paso 3.2).
 
 **Funcionó si** en la consola aparecen estas dos líneas:
 
@@ -268,7 +275,7 @@ curl -X POST http://localhost:8080/api/productos -H "Content-Type: application/j
 
 ## Paso 7: Ejecutar las pruebas automáticas (opcional)
 
-Para ejecutarlas en IntelliJ: clic derecho en `src/test/java` → **Run 'All Tests'**. Por terminal: `.\mvnw.cmd test` (PowerShell) o `./mvnw test` (Mac/Linux).
+Para ejecutarlas en VS Code: panel **Testing** (el ícono del matraz, a la izquierda) → botón **Run Tests**. Por terminal: `.\mvnw.cmd test` (PowerShell) o `./mvnw test` (Mac/Linux).
 
 Las pruebas usan **la misma base del `.env`** y comprueban que:
 1. se puede crear, leer y borrar un producto;
@@ -351,14 +358,15 @@ Busca en la consola la **primera** línea que diga `Caused by:` o `ERROR`.
 
 | Mensaje | Causa | Solución |
 |---|---|---|
-| `'mvnw.cmd' no se reconoce como nombre de un cmdlet` | En PowerShell hay que poner `.\` delante | `.\mvnw.cmd spring-boot:run`, o usa el ▶ de IntelliJ |
-| `JAVA_HOME not found` / `'java' no se reconoce` | El JDK está solo dentro de IntelliJ | Ejecuta con el ▶ de IntelliJ |
-| `Could not resolve placeholder 'DB_URL'` | No hay `.env`, se llama `.env.txt` o está en otra carpeta | Créalo con IntelliJ (**New → File**) junto a `pom.xml` |
+| `'mvnw.cmd' no se reconoce como nombre de un cmdlet` | En PowerShell hay que poner `.\` delante | `.\mvnw.cmd spring-boot:run`, o usa **Run** sobre `main` en VS Code |
+| `JAVA_HOME not found` / `'java' no se reconoce` | No hay JDK instalado, o no está en `JAVA_HOME` | Instala Temurin con *Set JAVA_HOME variable* activado y reinicia VS Code (paso 3.2) |
+| `Could not resolve placeholder 'DB_URL'` | No hay `.env`, se llama `.env.txt` o está en otra carpeta | Créalo en VS Code (**Explorer → New File…**) junto a `pom.xml` |
 | `FATAL: password authentication failed` | Usuario o clave mal copiados | Vuelve a **Connect → Copy snippet** en Neon (sin *Reset password*) |
 | `Driver ... claims to not accept jdbcUrl` | `DB_URL` no empieza con `jdbc:` | Revisa el paso 2 |
 | `The server does not support SSL` / `timeout` / `UnknownHost` | Falta `?sslmode=require` o el host está mal | Revisa el paso 2 |
-| `Port 8080 was already in use` | Otro programa usa el puerto 8080 (otro backend, o lo ejecutaste dos veces) | Detén el otro con el **■ rojo** de IntelliJ, o agrega `PORT=8081` al `.env` y usa `http://localhost:8081/...` |
-| `release version 17 not supported` | JDK antiguo | En IntelliJ: **File → Project Structure → SDK** → 17 o superior |
+| `Port 8080 was already in use` | Otro programa usa el puerto 8080 (otro backend, o lo ejecutaste dos veces) | Detén el otro (cuadrado rojo o **Ctrl+C** en su terminal), o agrega `PORT=8081` al `.env` y usa `http://localhost:8081/...` |
+| `release version 17 not supported` | JDK antiguo | Instala JDK 17 o superior (paso 3.2) y reinicia VS Code |
+| VS Code no muestra **Run** sobre `main` | Falta la extensión de Java, o abriste la carpeta equivocada | Instala **Extension Pack for Java** y abre la carpeta que contiene `pom.xml` |
 | La primera vez tarda unos segundos | Neon "duerme" la base cuando nadie la usa | Es normal |
 | Postman: `Could not send request` a `localhost` | Usas Postman web, o la API no está corriendo | Usa Postman de escritorio y revisa que la consola diga `Started` |
 | `PUT` responde 400 | Enviaste el producto incompleto | Envía todos los campos (truco del paso 6) |
@@ -375,7 +383,7 @@ tienda-neon/
 ├── pom.xml                      # Spring Boot 4.1, Java 17, Web MVC, JPA, Validation, PostgreSQL
 └── src/
     ├── main/java/cl/duoc/tiendaneon/
-    │   ├── TiendaNeonApplication.java     # ▶ se ejecuta desde aquí
+    │   ├── TiendaNeonApplication.java     # se ejecuta desde aquí (Run sobre main)
     │   ├── config/
     │   │   ├── CorsConfig.java            # deja entrar al frontend
     │   │   └── DatosIniciales.java        # 3 productos de ejemplo
@@ -422,7 +430,7 @@ public class Producto {
    - Número: `@NotNull @Min(0) private Integer talla;`
 
    `@NotBlank` es **solo para `String`**. **No** uses `@Column(nullable = false)`: los productos que ya existen no tienen ese dato y la tabla no se podría actualizar.
-2. Genera el getter y el setter: **Alt+Insert → Getter and Setter** (en Mac, **⌘N**). Sin ellos, el campo llega siempre vacío.
+2. Genera el getter y el setter: clic derecho dentro de la clase → **Source Action…** → **Generate Getters and Setters** → marca el campo nuevo → OK. Sin ellos, el campo llega siempre vacío.
 3. En `ProductoController.actualizar(...)` agrega `producto.setCategoria(datos.getCategoria());` para que el PUT también lo cambie.
 4. Reinicia la app. La columna nueva (`categoria`, o `talla_ropa` si la llamaste `tallaRopa`) aparece en Neon con `NULL` en los productos antiguos. Es normal.
 
@@ -466,7 +474,7 @@ git push -u origin main
 
 Antes del `commit`, ejecuta `git status` y verifica que **`.env` NO aparezca** en la lista.
 
-> ⚠️ **No** subas el proyecto con *Add file → Upload files* en la web de GitHub: así también se sube tu `.env` con la clave. Si no quieres usar comandos, en IntelliJ usa **Git → GitHub → Share Project on GitHub**, que respeta `.gitignore`.
+> ⚠️ **No** subas el proyecto con *Add file → Upload files* en la web de GitHub: así también se sube tu `.env` con la clave. Si no quieres usar comandos, en VS Code usa el panel **Source Control** (Ctrl+Shift+G) → **Publish to GitHub**, que respeta `.gitignore`.
 
 ## Material de clase
 
