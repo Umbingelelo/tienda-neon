@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clase 1 · Tu tienda en la nube · DSY1104</title>
+<style>
+  :root {
+    --bg: #f7f6f2; --fg: #1d1d1b; --muted: #6b6a65; --line: #dcdad2;
+    --accent: #0b6e4f; --accent-soft: #e2f0ea; --warn: #b54708; --warn-soft: #fdf0e3;
+    --code-bg: #1e1e1e; --code-fg: #e6e6e6;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: var(--bg); color: var(--fg);
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  .deck { position: relative; height: 100%; overflow: hidden; }
+  .slide { position: absolute; inset: 0; padding: 6vh 7vw 9vh; display: none; flex-direction: column; justify-content: center; }
+  .slide.active { display: flex; }
+  .tag { font-size: 1.6vh; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin-bottom: 2vh; }
+  h1 { font-size: 7vh; line-height: 1.05; letter-spacing: -.02em; }
+  h2 { font-size: 5vh; line-height: 1.1; letter-spacing: -.01em; margin-bottom: 3.5vh; }
+  h3 { font-size: 2.8vh; margin-bottom: 1.2vh; }
+  p, li, td, th { font-size: 2.8vh; line-height: 1.45; }
+  .lead { font-size: 3.2vh; color: var(--muted); max-width: 60ch; margin-top: 2.5vh; }
+  ul, ol { padding-left: 1.2em; } li { margin: .6vh 0; }
+  .muted { color: var(--muted); }
+  code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: .9em; background: #ebe9e1; padding: .05em .35em; border-radius: 4px; }
+  pre { background: var(--code-bg); color: var(--code-fg); border-radius: 10px; padding: 2.4vh 2.4vw; overflow: auto; margin: 1.5vh 0; }
+  pre code { background: none; padding: 0; font-size: 2.3vh; line-height: 1.5; color: inherit; }
+  .k { color: #7fd1ae; } .s { color: #e8b98a; } .c { color: #8a8a8a; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 4vw; align-items: start; }
+  .cols3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5vw; }
+  .card { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 2.6vh 1.8vw; }
+  .card.hi { border-color: var(--accent); background: var(--accent-soft); }
+  .note { border-left: 5px solid var(--accent); background: var(--accent-soft); padding: 1.8vh 1.6vw; border-radius: 0 8px 8px 0; margin-top: 2.5vh; }
+  .warn { border-left-color: var(--warn); background: var(--warn-soft); }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { text-align: left; padding: 1.1vh 1vw; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; font-size: 2.2vh; text-transform: uppercase; letter-spacing: .05em; }
+  .flow { display: flex; align-items: center; gap: 1.5vw; flex-wrap: wrap; margin: 3vh 0; }
+  .box { background: #fff; border: 2px solid var(--fg); border-radius: 10px; padding: 2vh 1.6vw; font-size: 2.6vh; font-weight: 600; text-align: center; min-width: 14vw; }
+  .box small { display: block; font-weight: 400; color: var(--muted); font-size: 2vh; margin-top: .5vh; }
+  .box.cloud { border-color: var(--accent); background: var(--accent-soft); }
+  .arrow { font-size: 4vh; color: var(--muted); }
+  .big { font-size: 12vh; font-weight: 800; color: var(--accent); line-height: 1; }
+  .agenda td:first-child { white-space: nowrap; color: var(--accent); font-weight: 700; }
+  .check li { list-style: none; position: relative; padding-left: 1.4em; }
+  .check li::before { content: "☐"; position: absolute; left: 0; color: var(--accent); }
+  footer { position: fixed; bottom: 0; left: 0; right: 0; height: 6vh; display: flex; align-items: center; justify-content: space-between; padding: 0 7vw; font-size: 1.8vh; color: var(--muted); }
+  .bar { position: fixed; top: 0; left: 0; height: 5px; background: var(--accent); transition: width .2s; }
+  .notes { display: none; position: fixed; right: 2vw; bottom: 8vh; width: 34vw; max-height: 40vh; overflow: auto; background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 1.6vh 1.2vw; font-size: 1.9vh; box-shadow: 0 6px 30px rgba(0,0,0,.12); }
+  body.show-notes .slide.active .notes { display: block; }
+  .notes::before { content: "Notas del docente"; display: block; font-weight: 700; color: var(--accent); margin-bottom: .8vh; }
+  @media print {
+    .slide { display: flex !important; position: relative; height: 100vh; page-break-after: always; }
+    footer, .bar, .notes { display: none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="bar" id="bar"></div>
+<main class="deck">
+
+<!-- 1 -->
+<section class="slide">
+  <div class="tag">DSY1104 · Desarrollo Full Stack II · EA3 · Act 3.3</div>
+  <h1>Tu tienda en la nube</h1>
+  <p class="lead">Clase 1: base de datos PostgreSQL en Neon, backend Spring Boot conectado y las imágenes de los productos en ImgBB.</p>
+  <aside class="notes">Presentarse como docente reemplazante. Contar que son dos clases: hoy la BD y las imágenes; la próxima, conectar el front con el back y publicar.</aside>
+</section>
+
+<!-- 2 -->
+<section class="slide">
+  <div class="tag">Hoy</div>
+  <h2>Agenda (3 bloques)</h2>
+  <table class="agenda">
+    <tr><td>Bloque 1</td><td><b>¿Qué es la nube?</b> Modelos de servicio, BD gestionada, secretos y variables de entorno.</td></tr>
+    <tr><td>Bloque 2</td><td><b>Neon + Spring Boot.</b> Crear la BD y conectar el backend (demo, y luego cada equipo).</td></tr>
+    <tr><td>Bloque 3</td><td><b>ImgBB.</b> Subir imágenes y guardar solo la URL. <b>Actividad de la clase.</b></td></tr>
+  </table>
+  <div class="note">Al terminar, cada equipo debe tener: <b>BD en la nube</b> + <b>backend conectado</b> + <b>productos con imagen en ImgBB</b>.</div>
+</section>
+
+<!-- 3 -->
+<section class="slide">
+  <div class="tag">Dónde estamos</div>
+  <h2>El caso semestral: la tienda online</h2>
+  <div class="cols3">
+    <div class="card"><h3>Parcial 1</h3><p>Sitio en HTML, CSS y JS.</p></div>
+    <div class="card"><h3>Parcial 2</h3><p>Framework frontend + pruebas con Jasmine/Karma.</p></div>
+    <div class="card hi"><h3>Parcial 3 ← ahora</h3><p>Frontend + backend Spring + BD, comunicación REST.</p></div>
+  </div>
+  <p class="lead">Hasta ahora la tienda vivía en tu computador. Hoy la base de datos pasa a vivir <b>en internet</b>.</p>
+</section>
+
+<!-- 4 -->
+<section class="slide">
+  <div class="tag">Bloque 1 · Conceptos</div>
+  <h2>¿Qué es "la nube"?</h2>
+  <p class="lead" style="margin-top:0">Es usar <b>computadores de otra empresa</b>, a través de internet, pagando por lo que usas (o gratis con límites).</p>
+  <div class="cols" style="margin-top:4vh">
+    <div class="card"><h3>En mi computador (local)</h3><ul><li>Si apago el PC, la tienda se cae</li><li>Solo yo veo los datos</li><li>Yo instalo y mantengo PostgreSQL</li></ul></div>
+    <div class="card hi"><h3>En la nube</h3><ul><li>Disponible 24/7 desde cualquier lugar</li><li>Todo el equipo usa la misma BD</li><li>El proveedor instala, respalda y actualiza</li></ul></div>
+  </div>
+  <aside class="notes">Pregunta al curso: ¿qué pasa hoy si un compañero quiere probar su front con la BD de otro? No puede: está en localhost.</aside>
+</section>
+
+<!-- 5 -->
+<section class="slide">
+  <div class="tag">Bloque 1 · Conceptos</div>
+  <h2>Modelos de servicio</h2>
+  <table>
+    <tr><th>Modelo</th><th>Tú administras</th><th>Ejemplos</th></tr>
+    <tr><td><b>IaaS</b><br><span class="muted">Infraestructura</span></td><td>Sistema operativo, instalación, BD, app</td><td>AWS EC2, Google Compute Engine</td></tr>
+    <tr><td><b>PaaS</b><br><span class="muted">Plataforma</span></td><td>Solo tu código / tus datos</td><td><b>Neon</b>, Render, Railway, Vercel</td></tr>
+    <tr><td><b>SaaS</b><br><span class="muted">Software</span></td><td>Nada, solo lo usas</td><td>Gmail, <b>ImgBB</b>, Google Drive</td></tr>
+  </table>
+  <div class="note">Hoy usamos <b>PaaS</b> (Neon: base de datos gestionada, "DBaaS") y un servicio de imágenes con API (ImgBB).</div>
+  <aside class="notes">Analogía: IaaS = arrendar terreno; PaaS = arrendar departamento amoblado; SaaS = hotel.</aside>
+</section>
+
+<!-- 6 -->
+<section class="slide">
+  <div class="tag">Bloque 1 · Conceptos</div>
+  <h2>La arquitectura que vamos a armar</h2>
+  <div class="flow">
+    <div class="box">Frontend<small>React / Angular</small></div>
+    <div class="arrow">→</div>
+    <div class="box">Backend<small>Spring Boot · REST</small></div>
+    <div class="arrow">→</div>
+    <div class="box cloud">PostgreSQL<small>Neon (nube)</small></div>
+  </div>
+  <div class="flow">
+    <div class="box">Frontend</div>
+    <div class="arrow">→</div>
+    <div class="box cloud">ImgBB<small>guarda la imagen</small></div>
+    <div class="arrow">→</div>
+    <div class="box">devuelve una URL<small>https://i.ibb.co/…</small></div>
+  </div>
+  <p class="lead">La base de datos guarda <b>texto</b>, incluyendo la URL de la imagen. <b>Nunca</b> guarda el archivo de la imagen.</p>
+</section>
+
+<!-- 7 -->
+<section class="slide">
+  <div class="tag">Bloque 1 · Conceptos</div>
+  <h2>¿Por qué no guardar la imagen en la BD?</h2>
+  <ul>
+    <li>Las imágenes pesan mucho: una foto de 3 MB × 500 productos = 1,5 GB. El plan gratis de una BD es pequeño.</li>
+    <li>Cada consulta a <code>productos</code> arrastraría megas de datos.</li>
+    <li>Los servicios de imágenes entregan la foto por un <b>CDN</b>: rápido, desde servidores cerca del usuario.</li>
+  </ul>
+  <div class="note">Patrón de la industria: <b>archivos → almacenamiento de objetos</b> (ImgBB, Cloudinary, AWS S3); <b>datos → base de datos</b> (solo la URL).</div>
+</section>
+
+<!-- 8 -->
+<section class="slide">
+  <div class="tag">Bloque 1 · Seguridad</div>
+  <h2>Secretos: lo que nunca va en GitHub</h2>
+  <div class="cols">
+    <div>
+      <p>Para conectarse a la nube se usan <b>credenciales</b>:</p>
+      <ul><li>usuario y clave de la BD</li><li>API key de ImgBB</li></ul>
+      <p style="margin-top:2vh">Si se suben a un repositorio público, <b>bots</b> las encuentran en minutos y pueden borrar o robar tus datos.</p>
+    </div>
+    <div class="card warn" style="border-color:var(--warn)">
+      <h3>❌ Mal</h3>
+<pre><code>spring.datasource.password=<span class="s">AbC123xyz</span></code></pre>
+      <h3 style="margin-top:2vh">✅ Bien</h3>
+<pre><code>spring.datasource.password=<span class="k">${DB_PASSWORD}</span></code></pre>
+    </div>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="slide">
+  <div class="tag">Bloque 1 · Seguridad</div>
+  <h2>Variables de entorno y el archivo <code>.env</code></h2>
+<pre><code><span class="c"># .env  (en tu PC, NO se sube: está en .gitignore)</span>
+DB_URL=jdbc:postgresql://ep-xxx.sa-east-1.aws.neon.tech/neondb?sslmode=require
+DB_USERNAME=neondb_owner
+DB_PASSWORD=AbC123xyz</code></pre>
+<pre><code><span class="c"># application.properties  (sí se sube)</span>
+spring.config.import=optional:file:.env[.properties]
+spring.datasource.url=<span class="k">${DB_URL}</span>
+spring.datasource.username=<span class="k">${DB_USERNAME}</span>
+spring.datasource.password=<span class="k">${DB_PASSWORD}</span></code></pre>
+  <p class="muted">Cuando la app se publique en la nube, esas mismas variables se configuran en el panel del servicio. El código no cambia.</p>
+</section>
+
+<!-- 10 -->
+<section class="slide">
+  <div class="tag">Bloque 2 · Neon</div>
+  <h2>¿Qué es Neon?</h2>
+  <ul>
+    <li><b>PostgreSQL gestionado</b>, con plan gratuito y sin tarjeta de crédito.</li>
+    <li><b>Serverless:</b> si nadie usa la BD, se "duerme" y despierta en la primera consulta (por eso a veces la primera vez tarda unos segundos).</li>
+    <li>Incluye un <b>SQL Editor</b> en el navegador para ver tus tablas.</li>
+    <li>Solo acepta conexiones <b>cifradas (SSL)</b>.</li>
+  </ul>
+  <div class="note">Es el mismo PostgreSQL que conocen: mismo SQL y el mismo driver JDBC. Solo cambia <b>dónde</b> está.</div>
+</section>
+
+<!-- 11 -->
+<section class="slide">
+  <div class="tag">Bloque 2 · Demo</div>
+  <h2>Paso 1: crear el proyecto en Neon</h2>
+  <ol>
+    <li>Entrar a <b>console.neon.tech</b> → registrarse con GitHub o Google.</li>
+    <li><b>New Project</b> → nombre <code>tienda</code> → región más cercana (São Paulo si aparece).</li>
+    <li>Neon crea la base <code>neondb</code> y el usuario <code>neondb_owner</code>.</li>
+    <li>Botón <b>Connect</b> → desactivar <b>Connection pooling</b> → copiar el <i>connection string</i>.</li>
+  </ol>
+  <div class="note">Una BD por equipo. Compartan el <code>.env</code> entre ustedes por un canal privado (WhatsApp, Teams), <b>no por GitHub</b>.</div>
+  <aside class="notes">Hacer la demo en vivo con el proyector. Mostrar el panel de Neon y dónde está el botón Connect.</aside>
+</section>
+
+<!-- 12 -->
+<section class="slide">
+  <div class="tag">Bloque 2 · Demo</div>
+  <h2>Paso 2: de connection string a JDBC</h2>
+  <p>Neon entrega:</p>
+<pre><code>postgresql://<span class="k">neondb_owner</span>:<span class="s">AbC123xyz</span>@ep-cool-123.sa-east-1.aws.neon.tech/neondb?sslmode=require</code></pre>
+  <p>Java necesita 3 datos separados:</p>
+<pre><code>DB_URL=<span class="k">jdbc:</span>postgresql://ep-cool-123.sa-east-1.aws.neon.tech/neondb?sslmode=require
+DB_USERNAME=<span class="k">neondb_owner</span>
+DB_PASSWORD=<span class="s">AbC123xyz</span></code></pre>
+  <div class="note warn">Error más común: pegar la URL tal cual. Hay que agregar <code>jdbc:</code> y <b>sacar</b> el usuario y la clave de la URL. Hay que mantener <code>?sslmode=require</code>.</div>
+</section>
+
+<!-- 13 -->
+<section class="slide">
+  <div class="tag">Bloque 2 · Demo</div>
+  <h2>Paso 3: el proyecto base</h2>
+<pre><code>git clone https://github.com/Umbingelelo/tienda-neon.git
+cd tienda-neon
+cp .env.example .env          <span class="c"># Windows: copy .env.example .env</span>
+<span class="c"># editar .env con tus datos de Neon</span>
+./mvnw spring-boot:run        <span class="c"># Windows: mvnw.cmd spring-boot:run</span></code></pre>
+  <p>Debe aparecer en la consola:</p>
+<pre><code>HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@…
+Started TiendaNeonApplication in 3.2 seconds</code></pre>
+  <p class="muted">Requisito: JDK 17 o superior. No hace falta instalar Maven (<code>mvnw</code> lo descarga).</p>
+</section>
+
+<!-- 14 -->
+<section class="slide">
+  <div class="tag">Bloque 2 · Código</div>
+  <h2>Lo mínimo de Spring Boot que necesitamos</h2>
+  <div class="cols">
+<pre><code><span class="k">@Entity</span>
+<span class="k">@Table</span>(name = <span class="s">"productos"</span>)
+public class Producto {
+  <span class="k">@Id @GeneratedValue</span>(strategy = IDENTITY)
+  private Long id;
+  <span class="k">@NotBlank</span> private String nombre;
+  <span class="k">@Min</span>(0)  private Integer precio;
+  <span class="k">@Min</span>(0)  private Integer stock;
+  private String imagenUrl;  <span class="c">// URL de ImgBB</span>
+}</code></pre>
+    <div>
+      <p><b>Entidad</b> → Hibernate crea la tabla en Neon (<code>ddl-auto=update</code>).</p>
+      <p style="margin-top:2vh"><b>Repositorio</b> → CRUD sin escribir SQL:</p>
+<pre><code>interface ProductoRepository
+  extends JpaRepository&lt;Producto, Long&gt; {}</code></pre>
+      <p><b>Controller</b> → <code>/api/productos</code> con GET, POST, PUT y DELETE.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 15 -->
+<section class="slide">
+  <div class="tag">Bloque 2 · Verificar</div>
+  <h2>Paso 4: ¿los datos están en la nube?</h2>
+  <div class="cols">
+    <div>
+      <h3>1. Desde la API</h3>
+      <p>Abrir <code>http://localhost:8080/api/productos</code>. Deben aparecer 3 productos de ejemplo.</p>
+      <h3 style="margin-top:3vh">2. Desde Neon</h3>
+      <p>Abrir <b>SQL Editor</b> y ejecutar:</p>
+<pre><code>SELECT * FROM productos;</code></pre>
+    </div>
+    <div class="card hi">
+      <h3>La prueba de fuego</h3>
+      <p>Que otro integrante del equipo, con el mismo <code>.env</code>, ejecute el proyecto en <b>su</b> PC y vea <b>los mismos datos</b>.</p>
+      <p style="margin-top:2vh">Eso es tener la BD en la nube.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 16 -->
+<section class="slide">
+  <div class="tag">Bloque 2 · Problemas frecuentes</div>
+  <h2>Si algo falla…</h2>
+  <table>
+    <tr><th>Mensaje</th><th>Solución</th></tr>
+    <tr><td><code>Could not resolve placeholder 'DB_URL'</code></td><td>Falta <code>.env</code> o no está junto a <code>pom.xml</code></td></tr>
+    <tr><td><code>password authentication failed</code></td><td>Copiar otra vez la clave desde <b>Connect</b></td></tr>
+    <tr><td><code>claims to not accept jdbcUrl</code></td><td>La URL debe empezar con <code>jdbc:postgresql://</code></td></tr>
+    <tr><td><code>does not support SSL</code> / timeout</td><td>Falta <code>?sslmode=require</code> o el host está mal</td></tr>
+    <tr><td><code>release version 17 not supported</code></td><td>Instalar JDK 17 o superior</td></tr>
+  </table>
+</section>
+
+<!-- 17 -->
+<section class="slide">
+  <div class="tag">Bloque 3 · ImgBB</div>
+  <h2>ImgBB: imágenes con una API</h2>
+  <ol>
+    <li>Crear una cuenta en <b>imgbb.com</b>.</li>
+    <li>Obtener la API key en <b>api.imgbb.com</b> → <i>Get API key</i>.</li>
+    <li>Subir una imagen con <code>POST</code> a:</li>
+  </ol>
+<pre><code>https://api.imgbb.com/1/upload?key=<span class="k">TU_API_KEY</span>
+  campo "image" = el archivo (o base64, o una URL)</code></pre>
+  <p>Respuesta (resumen):</p>
+<pre><code>{ "data": { "url": <span class="s">"https://i.ibb.co/abc123/polera.jpg"</span>,
+            "delete_url": <span class="s">"https://ibb.co/abc123/…"</span> }, "success": true }</code></pre>
+</section>
+
+<!-- 18 -->
+<section class="slide">
+  <div class="tag">Bloque 3 · Demo</div>
+  <h2>Probar ImgBB sin escribir código</h2>
+  <p>Desde la terminal (en Windows usa Git Bash, o Postman con <i>form-data</i>):</p>
+<pre><code>curl -X POST "https://api.imgbb.com/1/upload?key=TU_API_KEY" \
+     -F "image=@polera.jpg"</code></pre>
+  <p>Copiar el <code>data.url</code> de la respuesta y guardarlo en el producto:</p>
+<pre><code>curl -X PUT http://localhost:8080/api/productos/1 \
+  -H "Content-Type: application/json" \
+  -d '{"nombre":"Polera básica","precio":9990,"stock":20,
+       "imagenUrl":"https://i.ibb.co/abc123/polera.jpg"}'</code></pre>
+  <p class="muted">Verifica en Neon: <code>SELECT nombre, imagen_url FROM productos;</code></p>
+</section>
+
+<!-- 19 -->
+<section class="slide">
+  <div class="tag">Bloque 3 · Desde el frontend</div>
+  <h2>El mismo flujo en JavaScript</h2>
+<pre><code><span class="k">async function</span> crearProducto(archivo, producto) {
+  <span class="c">// 1) subir la imagen a ImgBB</span>
+  const form = new FormData();
+  form.append(<span class="s">"image"</span>, archivo);              <span class="c">// &lt;input type="file"&gt;</span>
+  const r = await fetch(<span class="s">`https://api.imgbb.com/1/upload?key=${IMGBB_KEY}`</span>,
+                        { method: <span class="s">"POST"</span>, body: form });
+  const { data } = await r.json();
+
+  <span class="c">// 2) guardar el producto con la URL en nuestra API</span>
+  return fetch(<span class="s">"http://localhost:8080/api/productos"</span>, {
+    method: <span class="s">"POST"</span>,
+    headers: { <span class="s">"Content-Type"</span>: <span class="s">"application/json"</span> },
+    body: JSON.stringify({ ...producto, imagenUrl: data.url }),
+  }).then(res =&gt; res.json());
+}</code></pre>
+</section>
+
+<!-- 20 -->
+<section class="slide">
+  <div class="tag">Bloque 3 · Seguridad</div>
+  <h2>Ojo con la API key en el frontend</h2>
+  <div class="cols">
+    <div class="card"><h3>Para la clase</h3><p>Front → ImgBB directo. Simple, pero la key queda visible en el navegador (F12 → Network).</p></div>
+    <div class="card hi"><h3>En producción</h3><p>Front → <b>tu backend</b> → ImgBB. La key vive en una variable de entorno del servidor y nunca llega al navegador.</p></div>
+  </div>
+  <div class="note">Esto es parte del IL3.3: proteger los datos y restringir el acceso. Menciónenlo en la presentación del parcial.</div>
+</section>
+
+<!-- 21 -->
+<section class="slide">
+  <div class="tag">Bloque 3 · Actividad</div>
+  <h2>Actividad de la clase</h2>
+  <p>Instrucciones completas: <code>clase1/ACTIVIDAD.md</code> en el repositorio.</p>
+  <ul class="check" style="margin-top:2vh">
+    <li><b>Parte A:</b> BD del equipo creada en Neon</li>
+    <li><b>Parte B:</b> backend conectado (proyecto base o el suyo), con <code>.env</code> fuera de Git</li>
+    <li><b>Parte C:</b> entidad adaptada a <b>su</b> tienda + 5 productos reales</li>
+    <li><b>Parte D:</b> imágenes de esos productos subidas a ImgBB y sus URLs guardadas en la BD</li>
+    <li><b>Desafío:</b> listar los productos con imagen desde su frontend</li>
+  </ul>
+  <div class="note">Entrega: capturas + link del repositorio, al final de la clase.</div>
+</section>
+
+<!-- 22 -->
+<section class="slide">
+  <div class="tag">Cierre</div>
+  <h2>Próxima clase</h2>
+  <div class="flow">
+    <div class="box">Frontend<small>fetch / axios</small></div>
+    <div class="arrow">→</div>
+    <div class="box">Backend<small>CORS</small></div>
+    <div class="arrow">→</div>
+    <div class="box cloud">Neon</div>
+  </div>
+  <ul>
+    <li>Conectar el frontend con la API (CRUD completo con imágenes).</li>
+    <li>Publicar el backend y el frontend en la nube.</li>
+  </ul>
+  <div class="note">Traigan la BD de Neon funcionando: la próxima clase partimos desde ahí.</div>
+</section>
+
+</main>
+<footer><span>DSY1104 · Clase 1 · Tu tienda en la nube</span><span id="count"></span></footer>
+
+<script>
+  const slides = [...document.querySelectorAll('.slide')];
+  let i = Math.max(0, Math.min(slides.length - 1, (parseInt(location.hash.slice(1)) || 1) - 1));
+  function show(n) {
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((s, k) => s.classList.toggle('active', k === i));
+    document.getElementById('count').textContent = (i + 1) + ' / ' + slides.length;
+    document.getElementById('bar').style.width = ((i + 1) / slides.length * 100) + '%';
+    history.replaceState(null, '', '#' + (i + 1));
+  }
+  document.addEventListener('keydown', e => {
+    if (['ArrowRight', 'PageDown', ' ', 'Enter'].includes(e.key)) { e.preventDefault(); show(i + 1); }
+    else if (['ArrowLeft', 'PageUp', 'Backspace'].includes(e.key)) { e.preventDefault(); show(i - 1); }
+    else if (e.key === 'Home') show(0);
+    else if (e.key === 'End') show(slides.length - 1);
+    else if (e.key === 'n' || e.key === 'N') document.body.classList.toggle('show-notes');
+    else if (e.key === 'f' || e.key === 'F') document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
+  });
+  document.addEventListener('click', e => { if (!e.target.closest('a, pre, code')) show(i + (e.clientX > innerWidth / 3 ? 1 : -1)); });
+  show(i);
+</script>
+</body>
+</html>

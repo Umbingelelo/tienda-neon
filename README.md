@@ -303,3 +303,8 @@ git push -u origin main
 ```
 
 Antes del `commit`, revisa con `git status` que **`.env` no aparezca** en la lista.
+
+## Material de clase
+
+- `clase1/slides.html`: presentación de la Clase 1. Ábrela en el navegador y usa ← → para avanzar, F para pantalla completa y N para ver las notas del docente.
+- `clase1/ACTIVIDAD.md`: actividad de la Clase 1 con las evidencias y la pauta.
