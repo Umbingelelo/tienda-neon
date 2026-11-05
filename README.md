@@ -470,5 +470,5 @@ Antes del `commit`, ejecuta `git status` y verifica que **`.env` NO aparezca** e
 
 ## Material de clase
 
-- [`clase1/slides.html`](clase1/slides.html): presentación de la Clase 1. Ábrela desde la carpeta del proyecto descargado (ZIP o clone); si descargas solo ese archivo, las capturas no se ven. Teclas: ← → para avanzar, **F** para pantalla completa, **N** para las notas del docente.
+- [`clase1/slides.html`](clase1/slides.html): presentación de la Clase 1. Es un solo archivo, con las capturas incluidas, y funciona sin internet. Descárgalo y ábrelo con doble clic. Teclas: → y Espacio para avanzar, ← para retroceder, **R** para revelar respuestas, **M** para cambiar entre modo clase y modo estudio.
 - [`clase1/ACTIVIDAD.md`](clase1/ACTIVIDAD.md): actividad de la Clase 1, con las evidencias y la pauta.
